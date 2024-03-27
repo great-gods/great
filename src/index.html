@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/common.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <main id="mainContent">
+
+    <div class="wrpperL">
+      <div class="breadCrumbs">
+        <p>
+          <a href="<?php echo home_url(); ?>" class="breadLink">TOP</a>
+          <span>ブログ一覧</span>
+        </p>
+      </div>
+    </div><!-- Breadcrumbs -->
+
+    
+    <article id="news">
+      <div class="inner-news">
+        <h2>标题</h2>
+        <div class="news-lists">
+          <div class="news-child">
+            <div>
+              <span>2023/12/15</span>
+              <div>
+                <a>お知らせ</a>
+                <a>お知らせ</a>
+                <a>お知らせ</a>
+              </div>
+            </div>
+            <h3>ニュースタイトルダミーテキストダミーテキストダミーテキストダミーテキスト</h3>
+          </div>
+        </div>
+        <div class="more-button">
+          <a href="javascript:void()">更多</a>
+        </div>
+      </div>
+    </article><!-- news -->
+
+    <article id="news">
+      <section class="inner-news">
+        <h2 class="title">お知らせ</h2>
+        <?php
+          $args = [
+            'post_type' => 'news', 
+            'posts_per_page' => 3, 
+          ];
+          $my_query = new WP_Query($args); ?>
+        <?php if ($my_query->have_posts()): ?>
+        <div class="news-lists">
+          <?php while ($my_query->have_posts()) : $my_query->the_post(); ?>
+          <a href="<?php echo get_permalink();?>" class="news-child">
+            <div class="newsChildLeft">
+              <strong class="newsDate"><?php echo get_the_time('Y年m月d日'); ?></strong>
+              <div class="newsCate">
+                <?php
+                  $terms = get_the_terms($post->ID,'cate_news');
+                  if($terms.length > 0){
+                    foreach( $terms as $term ) {
+                      echo '<span>'.$term->name.'</span>';
+                    };
+                  };
+                ?>
+              </div>
+            </div>
+            <h3>
+              <p><?php the_title(); ?></p>
+            </h3>
+          </a>
+          <?php endwhile; ?>
+        </div>
+        <?php endif; wp_reset_postdata(); ?>
+        <div class="moreButton">
+          <a href="/news" class="circleBtnLink">もっと見る</a>
+        </div>
+      </section>
+    </article><!--/homeNews-->
+
+
+    <article id="articleContent">
+
+      <p></p>
+    </article>
+
+  </main>
+
+  <footer id="footer">
+    <div></div>
+  </footer>
+</body>
+</html>
